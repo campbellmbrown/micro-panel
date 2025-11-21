@@ -1,0 +1,3 @@
+[submodule "lib/nrf5_sdk"]
+	path = lib/nrf5_sdk
+	url = git@github.com:campbellmbrown/nrf5_sdk.git
