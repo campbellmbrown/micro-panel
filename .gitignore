@@ -43,5 +43,9 @@
 # Python
 .venv/
 
+# clangd
+compile_commands.json
+.cache/
+
 # Project specific
 _build/

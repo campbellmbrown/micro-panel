@@ -1,3 +1,6 @@
+/**
+ * Hardware configuration for Seeed XIAO BLE Sense board.
+ */
 #pragma once
 
 #ifdef __cplusplus

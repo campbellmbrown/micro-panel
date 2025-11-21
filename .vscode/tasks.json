@@ -16,6 +16,13 @@
             "problemMatcher": []
         },
         {
+            "label": "build (compile commands)",
+            "type": "shell",
+            "command": "bear -- make -j GNU_INSTALL_ROOT=\"\"",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
             "label": "flash",
             "type": "shell",
             "command": "./flash.sh",
