@@ -53,6 +53,28 @@ set(SRC_FILES
     ${SDK_ROOT}/modules/nrfx/drivers/src/nrfx_twim.c
     ${SDK_ROOT}/integration/nrfx/legacy/nrf_drv_twi.c
     ${SDK_ROOT}/modules/nrfx/drivers/src/prs/nrfx_prs.c
+    ${SDK_ROOT}/components/libraries/log/src/nrf_log_default_backends.c
+    ${SDK_ROOT}/components/libraries/log/src/nrf_log_backend_uart.c
+    ${SDK_ROOT}/integration/nrfx/legacy/nrf_drv_uart.c
+    ${SDK_ROOT}/modules/nrfx/drivers/src/nrfx_uarte.c
+    ${SDK_ROOT}/modules/nrfx/drivers/src/nrfx_uart.c
+    ${SDK_ROOT}/components/libraries/log/src/nrf_log_backend_serial.c
+    lib/u8g2/csrc/u8x8_display.c
+    lib/u8g2/csrc/u8g2_font.c
+    lib/u8g2/csrc/u8x8_8x8.c
+    lib/u8g2/csrc/u8g2_hvline.c
+    lib/u8g2/csrc/u8g2_intersection.c
+    lib/u8g2/csrc/u8g2_fonts.c
+    lib/u8g2/csrc/u8g2_setup.c
+    lib/u8g2/csrc/u8g2_buffer.c
+    lib/u8g2/csrc/u8g2_d_setup.c
+    lib/u8g2/csrc/u8g2_ll_hvline.c
+    lib/u8g2/csrc/u8x8_d_ssd1306_128x64_noname.c
+    lib/u8g2/csrc/u8x8_cad.c
+    lib/u8g2/csrc/u8x8_byte.c
+    lib/u8g2/csrc/u8x8_gpio.c
+    lib/u8g2/csrc/u8g2_d_memory.c
+    lib/u8g2/csrc/u8x8_setup.c
 )
 
 # Include directories
@@ -81,6 +103,7 @@ include_directories(
     ${SDK_ROOT}/components/libraries/log/src
     ${SDK_ROOT}/integration/nrfx/legacy
     ${SDK_ROOT}/modules/nrfx/drivers/include
+    lib/u8g2/csrc
 )
 
 # Add executable
