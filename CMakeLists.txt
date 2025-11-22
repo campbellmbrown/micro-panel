@@ -50,6 +50,9 @@ set(SRC_FILES
     ${SDK_ROOT}/modules/nrfx/soc/nrfx_atomic.c
     ${PROJ_DIR}/main.c
     ${SDK_ROOT}/modules/nrfx/mdk/system_nrf52840.c
+    ${SDK_ROOT}/modules/nrfx/drivers/src/nrfx_twim.c
+    ${SDK_ROOT}/integration/nrfx/legacy/nrf_drv_twi.c
+    ${SDK_ROOT}/modules/nrfx/drivers/src/prs/nrfx_prs.c
 )
 
 # Include directories
@@ -76,6 +79,8 @@ include_directories(
     ${SDK_ROOT}/components/libraries/memobj
     ${SDK_ROOT}/external/fprintf
     ${SDK_ROOT}/components/libraries/log/src
+    ${SDK_ROOT}/integration/nrfx/legacy
+    ${SDK_ROOT}/modules/nrfx/drivers/include
 )
 
 # Add executable
