@@ -11,9 +11,9 @@ static volatile bool m_xfer_done = false;
 static bool read_something = false;
 
 #if TWI0_ENABLED
-#define TWI_INSTANCE_ID (0)
+#define TWI_INSTANCE_ID 0
 #elif TWI1_ENABLED
-#define TWI_INSTANCE_ID (1)
+#define TWI_INSTANCE_ID 1
 #endif
 
 static const nrf_drv_twi_t m_twi = NRF_DRV_TWI_INSTANCE(TWI_INSTANCE_ID);
