@@ -49,3 +49,4 @@ compile_commands.json
 
 # Project specific
 _build/
+build/
