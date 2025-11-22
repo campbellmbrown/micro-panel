@@ -4,23 +4,24 @@
         {
             "label": "clean",
             "type": "shell",
-            "command": "make clean",
+            "command": "rm -rf build",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "configure",
+            "type": "shell",
+            "command": "cmake -S . -B build",
             "group": "build",
             "problemMatcher": []
         },
         {
             "label": "build",
             "type": "shell",
-            "command": "make -j GNU_INSTALL_ROOT=\"\"",
+            "command": "cmake --build build -- -j",
             "group": "build",
-            "problemMatcher": []
-        },
-        {
-            "label": "build (compile commands)",
-            "type": "shell",
-            "command": "bear -- make -j GNU_INSTALL_ROOT=\"\"",
-            "group": "build",
-            "problemMatcher": []
+            "problemMatcher": [],
+            "dependsOn": ["configure"]
         },
         {
             "label": "flash",
