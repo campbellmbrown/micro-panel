@@ -22,27 +22,66 @@ set(U8G2_INCLUDES
 )
 
 add_library(u8g2 STATIC ${U8G2_SOURCES})
-
 target_include_directories(u8g2 PUBLIC ${U8G2_INCLUDES})
 
-target_compile_options(u8g2 PRIVATE
-    -O3
-    -g3
-    -mcpu=cortex-m4
-    -mthumb
-    -mabi=aapcs
-    -Wall
-    -Werror
-    -mfloat-abi=hard
-    -mfpu=fpv4-sp-d16
-    -ffunction-sections
-    -fdata-sections
-    -fno-strict-aliasing
-    -fno-builtin
-    -fshort-enums
+set(NRF5_SDK_SOURCES
+    nrf5_sdk/modules/nrfx/mdk/gcc_startup_nrf52840.S
+    nrf5_sdk/components/libraries/log/src/nrf_log_frontend.c
+    nrf5_sdk/components/libraries/log/src/nrf_log_str_formatter.c
+    nrf5_sdk/components/libraries/util/app_error.c
+    nrf5_sdk/components/libraries/util/app_error_handler_gcc.c
+    nrf5_sdk/components/libraries/util/app_error_weak.c
+    nrf5_sdk/components/libraries/util/app_util_platform.c
+    nrf5_sdk/components/libraries/util/nrf_assert.c
+    nrf5_sdk/components/libraries/atomic/nrf_atomic.c
+    nrf5_sdk/components/libraries/balloc/nrf_balloc.c
+    nrf5_sdk/external/fprintf/nrf_fprintf.c
+    nrf5_sdk/external/fprintf/nrf_fprintf_format.c
+    nrf5_sdk/components/libraries/memobj/nrf_memobj.c
+    nrf5_sdk/components/libraries/ringbuf/nrf_ringbuf.c
+    nrf5_sdk/components/libraries/strerror/nrf_strerror.c
+    nrf5_sdk/modules/nrfx/soc/nrfx_atomic.c
+    nrf5_sdk/modules/nrfx/mdk/system_nrf52840.c
+    nrf5_sdk/modules/nrfx/drivers/src/nrfx_twim.c
+    nrf5_sdk/integration/nrfx/legacy/nrf_drv_twi.c
+    nrf5_sdk/modules/nrfx/drivers/src/prs/nrfx_prs.c
+    nrf5_sdk/components/libraries/log/src/nrf_log_default_backends.c
+    nrf5_sdk/components/libraries/log/src/nrf_log_backend_uart.c
+    nrf5_sdk/integration/nrfx/legacy/nrf_drv_uart.c
+    nrf5_sdk/modules/nrfx/drivers/src/nrfx_uarte.c
+    nrf5_sdk/modules/nrfx/drivers/src/nrfx_uart.c
+    nrf5_sdk/components/libraries/log/src/nrf_log_backend_serial.c
 )
 
-target_compile_definitions(u8g2 PRIVATE
+set(NRF5_SDK_INCLUDES
+    nrf5_sdk/components
+    nrf5_sdk/modules/nrfx/mdk
+    nrf5_sdk/components/libraries/strerror
+    nrf5_sdk/components/toolchain/cmsis/include
+    nrf5_sdk/components/libraries/util
+    nrf5_sdk/components/libraries/balloc
+    nrf5_sdk/components/libraries/ringbuf
+    nrf5_sdk/modules/nrfx/hal
+    nrf5_sdk/components/libraries/bsp
+    nrf5_sdk/components/libraries/log
+    nrf5_sdk/modules/nrfx
+    nrf5_sdk/components/libraries/experimental_section_vars
+    nrf5_sdk/components/libraries/delay
+    nrf5_sdk/integration/nrfx
+    nrf5_sdk/components/drivers_nrf/nrf_soc_nosd
+    nrf5_sdk/components/libraries/atomic
+    nrf5_sdk/components/boards
+    nrf5_sdk/components/libraries/memobj
+    nrf5_sdk/external/fprintf
+    nrf5_sdk/components/libraries/log/src
+    nrf5_sdk/integration/nrfx/legacy
+    nrf5_sdk/modules/nrfx/drivers/include
+)
+
+add_library(nrf5_sdk STATIC ${NRF5_SDK_SOURCES})
+target_include_directories(nrf5_sdk PUBLIC ${NRF5_SDK_INCLUDES})
+
+target_compile_definitions(nrf5_sdk PUBLIC
     BOARD_CUSTOM
     BSP_DEFINES_ONLY
     CONFIG_GPIO_AS_PINRESET

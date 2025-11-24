@@ -17,94 +17,26 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project(blinky_pca10056 LANGUAGES C CXX ASM)
 
-set(SDK_ROOT ${CMAKE_SOURCE_DIR}/lib/nrf5_sdk)
 set(PROJ_DIR ${CMAKE_SOURCE_DIR}/src)
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/nrf52840_s140_v7.ld)
 
-# Source files
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
 set(SRC_FILES
-    ${SDK_ROOT}/modules/nrfx/mdk/gcc_startup_nrf52840.S
-    ${SDK_ROOT}/components/libraries/log/src/nrf_log_frontend.c
-    ${SDK_ROOT}/components/libraries/log/src/nrf_log_str_formatter.c
-    ${SDK_ROOT}/components/libraries/util/app_error.c
-    ${SDK_ROOT}/components/libraries/util/app_error_handler_gcc.c
-    ${SDK_ROOT}/components/libraries/util/app_error_weak.c
-    ${SDK_ROOT}/components/libraries/util/app_util_platform.c
-    ${SDK_ROOT}/components/libraries/util/nrf_assert.c
-    ${SDK_ROOT}/components/libraries/atomic/nrf_atomic.c
-    ${SDK_ROOT}/components/libraries/balloc/nrf_balloc.c
-    ${SDK_ROOT}/external/fprintf/nrf_fprintf.c
-    ${SDK_ROOT}/external/fprintf/nrf_fprintf_format.c
-    ${SDK_ROOT}/components/libraries/memobj/nrf_memobj.c
-    ${SDK_ROOT}/components/libraries/ringbuf/nrf_ringbuf.c
-    ${SDK_ROOT}/components/libraries/strerror/nrf_strerror.c
-    ${SDK_ROOT}/modules/nrfx/soc/nrfx_atomic.c
-    ${PROJ_DIR}/main.c
-    ${SDK_ROOT}/modules/nrfx/mdk/system_nrf52840.c
-    ${SDK_ROOT}/modules/nrfx/drivers/src/nrfx_twim.c
-    ${SDK_ROOT}/integration/nrfx/legacy/nrf_drv_twi.c
-    ${SDK_ROOT}/modules/nrfx/drivers/src/prs/nrfx_prs.c
-    ${SDK_ROOT}/components/libraries/log/src/nrf_log_default_backends.c
-    ${SDK_ROOT}/components/libraries/log/src/nrf_log_backend_uart.c
-    ${SDK_ROOT}/integration/nrfx/legacy/nrf_drv_uart.c
-    ${SDK_ROOT}/modules/nrfx/drivers/src/nrfx_uarte.c
-    ${SDK_ROOT}/modules/nrfx/drivers/src/nrfx_uart.c
-    ${SDK_ROOT}/components/libraries/log/src/nrf_log_backend_serial.c
+    src/main.c
 )
 
-# Include directories
 include_directories(
-    ${SDK_ROOT}/components
-    ${SDK_ROOT}/modules/nrfx/mdk
-    ${PROJ_DIR}
-    ${PROJ_DIR}/config
-    ${SDK_ROOT}/components/libraries/strerror
-    ${SDK_ROOT}/components/toolchain/cmsis/include
-    ${SDK_ROOT}/components/libraries/util
-    ${SDK_ROOT}/components/libraries/balloc
-    ${SDK_ROOT}/components/libraries/ringbuf
-    ${SDK_ROOT}/modules/nrfx/hal
-    ${SDK_ROOT}/components/libraries/bsp
-    ${SDK_ROOT}/components/libraries/log
-    ${SDK_ROOT}/modules/nrfx
-    ${SDK_ROOT}/components/libraries/experimental_section_vars
-    ${SDK_ROOT}/components/libraries/delay
-    ${SDK_ROOT}/integration/nrfx
-    ${SDK_ROOT}/components/drivers_nrf/nrf_soc_nosd
-    ${SDK_ROOT}/components/libraries/atomic
-    ${SDK_ROOT}/components/boards
-    ${SDK_ROOT}/components/libraries/memobj
-    ${SDK_ROOT}/external/fprintf
-    ${SDK_ROOT}/components/libraries/log/src
-    ${SDK_ROOT}/integration/nrfx/legacy
-    ${SDK_ROOT}/modules/nrfx/drivers/include
+    src  # TODO: hide from library cmake files
+    src/config
 )
 
-add_subdirectory(lib)
-
-# Add executable
-add_executable(blinky ${SRC_FILES})
-
-# Compiler definitions
-target_compile_definitions(blinky PRIVATE
-    BOARD_CUSTOM
-    BSP_DEFINES_ONLY
-    CONFIG_GPIO_AS_PINRESET
-    FLOAT_ABI_HARD
-    NRF52840_XXAA
-    __HEAP_SIZE=8192
-    __STACK_SIZE=8192
-)
-
-# Compiler options
-target_compile_options(blinky PRIVATE
+set(MCU_FLAGS
     -O3
     -g3
     -mcpu=cortex-m4
     -mthumb
     -mabi=aapcs
-    -Wall
-    -Werror
     -mfloat-abi=hard
     -mfpu=fpv4-sp-d16
     -ffunction-sections
@@ -114,31 +46,36 @@ target_compile_options(blinky PRIVATE
     -fshort-enums
 )
 
-# Linker options
+string(JOIN " " MCU_FLAGS_STR ${MCU_FLAGS})
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${MCU_FLAGS_STR}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MCU_FLAGS_STR}")
+set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} ${MCU_FLAGS_STR}")
+
+add_subdirectory(lib)
+add_executable(blinky ${SRC_FILES})  # TODO: rename target
+
+target_compile_options(blinky PRIVATE
+    -Wall
+    -Werror
+)
+
 target_link_options(blinky PRIVATE
-    -O3
-    -g3
-    -mthumb
-    -mabi=aapcs
-    -L${SDK_ROOT}/modules/nrfx/mdk
+    -Llib/nrf5_sdk/modules/nrfx/mdk
     -T${LINKER_SCRIPT}
-    -mcpu=cortex-m4
-    -mfloat-abi=hard
-    -mfpu=fpv4-sp-d16
     -Wl,--gc-sections
     --specs=nano.specs
     -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/blinky.map
 )
 
-# Link standard libraries
 target_link_libraries(blinky PRIVATE
     c
     nosys
     m
     u8g2
+    nrf5_sdk
 )
 
-# Generate binary and hex
 add_custom_command(
     TARGET blinky POST_BUILD
     COMMAND ${CMAKE_C_SIZE_TOOL} ARGS blinky.out
@@ -155,4 +92,10 @@ add_custom_command(
     TARGET blinky POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} ARGS -O ihex blinky.out blinky.hex
     COMMENT "Generating blinky.hex"
+)
+
+add_custom_command(
+    TARGET blinky POST_BUILD
+    COMMAND cksum ARGS blinky.bin
+    COMMENT "Checksum of blinky.bin"
 )
