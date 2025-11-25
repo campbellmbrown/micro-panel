@@ -30,5 +30,26 @@
             "group": "build",
             "problemMatcher": []
         },
+        {
+            "label": "format C/C++",
+            "type": "shell",
+            "command": "python scripts/format.py",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "format Python",
+            "type": "shell",
+            "command": "ruff format",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "check Python",
+            "type": "shell",
+            "command": "ruff check",
+            "group": "build",
+            "problemMatcher": []
+        },
     ]
 }
