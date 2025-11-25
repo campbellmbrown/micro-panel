@@ -1,4 +1,5 @@
 #include "hardware.h"
+#include "nordic_common.h"
 #include "nrf_delay.h"
 #include "nrf_drv_twi.h"
 #include "nrf_gpio.h"
@@ -29,6 +30,7 @@ static const nrf_drv_twi_t m_twi = NRF_DRV_TWI_INSTANCE(TWI_INSTANCE_ID);
 
 static void twi_handler(nrf_drv_twi_evt_t const * p_event, void * p_context)
 {
+    UNUSED_PARAMETER(p_context);
     switch(p_event->type)
     {
         case NRF_DRV_TWI_EVT_ADDRESS_NACK:
@@ -78,15 +80,14 @@ static void twi_init (void)
 
 static uint8_t u8g2_nrf_gpio_and_delay_twi_cb(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
+    UNUSED_PARAMETER(arg_ptr);
     switch(msg)
     {
         case U8X8_MSG_DELAY_MILLI:
-            // NRF_LOG_INFO("nrf_delay_ms(%d)", arg_int);
             nrf_delay_ms(arg_int);
             break;
 
         case U8X8_MSG_DELAY_10MICRO:
-            // NRF_LOG_INFO("nrf_delay_us(%d)", 10*arg_int);
             nrf_delay_us(10*arg_int);
             break;
 

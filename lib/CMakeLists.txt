@@ -81,6 +81,11 @@ set(NRF5_SDK_INCLUDES
 add_library(nrf5_sdk STATIC ${NRF5_SDK_SOURCES})
 target_include_directories(nrf5_sdk PUBLIC ${NRF5_SDK_INCLUDES})
 
+# Set system include directories to suppress warnings from SDK code
+set_target_properties(nrf5_sdk PROPERTIES
+    INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "$<TARGET_PROPERTY:nrf5_sdk,INTERFACE_INCLUDE_DIRECTORIES>"
+)
+
 target_compile_definitions(nrf5_sdk PUBLIC
     BOARD_CUSTOM
     BSP_DEFINES_ONLY

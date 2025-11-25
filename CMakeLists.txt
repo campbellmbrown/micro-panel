@@ -17,10 +17,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project(blinky_pca10056 LANGUAGES C CXX ASM)
 
+set(SDK_ROOT ${CMAKE_SOURCE_DIR}/lib/nrf5_sdk)
 set(PROJ_DIR ${CMAKE_SOURCE_DIR}/src)
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/nrf52840_s140_v7.ld)
-
-set(CMAKE_VERBOSE_MAKEFILE ON)
 
 set(SRC_FILES
     src/main.c
@@ -58,10 +57,11 @@ add_executable(blinky ${SRC_FILES})  # TODO: rename target
 target_compile_options(blinky PRIVATE
     -Wall
     -Werror
+    -Wextra
 )
 
 target_link_options(blinky PRIVATE
-    -Llib/nrf5_sdk/modules/nrfx/mdk
+    -L${SDK_ROOT}/modules/nrfx/mdk
     -T${LINKER_SCRIPT}
     -Wl,--gc-sections
     --specs=nano.specs
