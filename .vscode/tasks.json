@@ -45,9 +45,16 @@
             "problemMatcher": []
         },
         {
-            "label": "check Python",
+            "label": "lint Python",
             "type": "shell",
             "command": "ruff check",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "type check Python",
+            "type": "shell",
+            "command": "mypy .",
             "group": "build",
             "problemMatcher": []
         },

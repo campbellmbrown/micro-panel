@@ -7,7 +7,7 @@ SRC_DIRS = [
     "src",
 ]
 
-EXCLUDE_DIRECTORIES = []
+EXCLUDE_DIRECTORIES: list[str] = []
 
 EXCLUDE_FILES = [
     "src/config/sdk_config.h",

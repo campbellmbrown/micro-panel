@@ -26,8 +26,11 @@ jobs:
         python scripts/format.py
         git diff --exit-code
 
-    - name: Check Python
+    - name: Lint Python
       run: ruff check
+
+    - name: Type check Python
+      run: mypy .
 
     - name: Format Python
       run: ruff format --check

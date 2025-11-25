@@ -12,32 +12,41 @@
 ### Dependencies
 
 1. [Python 3](https://www.python.org/downloads/) (for tools and scripts)
-2. [clang-format](https://pypi.org/project/clang-format/) (for C/C++ code formatting)
+2. [ARM GNU Toolchain 10.3-2021.10](https://developer.arm.com/downloads/-/gnu-rm) (for compiling firmware)
+3. [CMake](https://cmake.org/download/) (for build management)
 
-Install Python packages:
+Linting, formatting, and other development tools are managed via `pip` and listed in `requirements.txt`.
 
 ```bash
 pip install -r requirements.txt
 ```
 
+All development commands can be run via VS Code tasks or directly from the command line.
+
 ### Code Formatting
 
-To format C/C++ code, use the VS Code task or run the following command:
+To format C/C++ code using `clang-format`:
 
 ```bash
 python scripts/format.py
 ```
 
-To format Python code, use the VS Code task or run the following command:
+To format Python code using `ruff`:
 
 ```bash
 ruff format
 ```
 
-### Code Linting
+### Code Quality
 
-To lint Python code, use the VS Code task or run the following command:
+To lint Python code using `ruff`:
 
 ```bash
 ruff check
+```
+
+To type check Python code using `mypy`:
+
+```bash
+mypy .
 ```

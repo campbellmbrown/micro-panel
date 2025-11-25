@@ -1,3 +1,4 @@
 adafruit-nrfutil
 clang-format
+mypy
 ruff
