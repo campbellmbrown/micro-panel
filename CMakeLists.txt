@@ -51,8 +51,9 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${MCU_FLAGS_STR}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MCU_FLAGS_STR}")
 set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} ${MCU_FLAGS_STR}")
 
-add_subdirectory(lib)
 add_executable(blinky ${SRC_FILES})  # TODO: rename target
+include(lib/submodules.cmake)
+add_submodules(blinky)
 
 target_compile_options(blinky PRIVATE
     -Wall
@@ -72,8 +73,6 @@ target_link_libraries(blinky PRIVATE
     c
     nosys
     m
-    u8g2
-    nrf5_sdk
 )
 
 add_custom_command(

@@ -1,3 +1,9 @@
 {
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "editor.rulers": [
+        120,
+    ],
     "sonarlint.pathToCompileCommands": "${workspaceFolder}/build/compile_commands.json"
 }
