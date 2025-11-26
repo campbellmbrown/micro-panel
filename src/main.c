@@ -198,7 +198,7 @@ int main(void)
         }
     }
 
-    u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2, U8G2_R0, u8x8_HW_com_twi_nrf52832, u8g2_nrf_gpio_and_delay_twi_cb);
+    u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2, U8G2_R0, (u8x8_msg_cb)u8x8_HW_com_twi_nrf52832, u8g2_nrf_gpio_and_delay_twi_cb);
     u8g2_SetI2CAddress(&u8g2, OLED_ADDR);
 
     u8g2_InitDisplay(&u8g2);
