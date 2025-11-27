@@ -5,6 +5,7 @@
 ![Contributors](https://img.shields.io/github/contributors/campbellmbrown/micro-panel)
 ![Issues](https://img.shields.io/github/issues/campbellmbrown/micro-panel)
 ![Pull Requests](https://img.shields.io/github/issues-pr/campbellmbrown/micro-panel)
+![docs](https://app.readthedocs.org/projects/micro-panel/badge)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 ## Development
