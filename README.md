@@ -1,12 +1,16 @@
 # MicroPanel
 
-![License](https://img.shields.io/github/license/campbellmbrown/micro-panel)
-![Release](https://img.shields.io/github/v/release/campbellmbrown/micro-panel)
-![Contributors](https://img.shields.io/github/contributors/campbellmbrown/micro-panel)
-![Issues](https://img.shields.io/github/issues/campbellmbrown/micro-panel)
-![Pull Requests](https://img.shields.io/github/issues-pr/campbellmbrown/micro-panel)
-![docs](https://app.readthedocs.org/projects/micro-panel/badge)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+![License](https://img.shields.io/github/license/campbellmbrown/micro-panel?style=for-the-badge)
+![docs](https://app.readthedocs.org/projects/micro-panel/badge/?style=for-the-badge)
+![Pipeline](https://img.shields.io/github/actions/workflow/status/campbellmbrown/micro-panel/pipeline.yaml?branch=main&style=for-the-badge&logo=github)
+![Release](https://img.shields.io/github/v/release/campbellmbrown/micro-panel?style=for-the-badge&logo=github)
+
+![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
+![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![CMake](https://img.shields.io/badge/CMake-%23008FBA.svg?style=for-the-badge&logo=cmake&logoColor=white)
+![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json&style=for-the-badge)
+![Read the Docs](https://img.shields.io/badge/Read%20the%20Docs-%23000000?style=for-the-badge&logo=readthedocs&logoColor=white)
 
 ## Development
 
