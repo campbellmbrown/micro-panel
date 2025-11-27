@@ -5,5 +5,23 @@
     "editor.rulers": [
         120,
     ],
-    "sonarlint.pathToCompileCommands": "${workspaceFolder}/build/compile_commands.json"
+    "sonarlint.pathToCompileCommands": "${workspaceFolder}/build/compile_commands.json",
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "never",
+            "source.organizeImports": "explicit",
+        },
+        "editor.defaultFormatter": "charliermarsh.ruff",
+    },
+    "python.analysis.extraPaths": ["."],
+    "python.analysis.typeCheckingMode": "basic",
+    "pylint.args": [
+        "--disable=missing-function-docstring,missing-class-docstring,missing-module-docstring",
+        "--max-line-length=120",
+    ],
+    "ruff.organizeImports": true,
+    "mypy-type-checker.args": [
+        "--config-file=${workspaceFolder}/pyproject.toml"
+    ]
 }
