@@ -22,7 +22,7 @@ set(PROJ_DIR ${CMAKE_SOURCE_DIR}/src)
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/nrf52840_s140_v7.ld)
 
 set(SRC_FILES
-    src/main.c
+    src/main.cpp
 )
 
 include_directories(
@@ -77,19 +77,19 @@ target_link_libraries(blinky PRIVATE
 
 add_custom_command(
     TARGET blinky POST_BUILD
-    COMMAND ${CMAKE_C_SIZE_TOOL} ARGS blinky.out
-    COMMENT "Size of blinky.out"
+    COMMAND ${CMAKE_C_SIZE_TOOL} ARGS blinky
+    COMMENT "Size of blinky"
 )
 
 add_custom_command(
     TARGET blinky POST_BUILD
-    COMMAND ${CMAKE_OBJCOPY} ARGS -O binary blinky.out blinky.bin
+    COMMAND ${CMAKE_OBJCOPY} ARGS -O binary blinky blinky.bin
     COMMENT "Generating blinky.bin"
 )
 
 add_custom_command(
     TARGET blinky POST_BUILD
-    COMMAND ${CMAKE_OBJCOPY} ARGS -O ihex blinky.out blinky.hex
+    COMMAND ${CMAKE_OBJCOPY} ARGS -O ihex blinky blinky.hex
     COMMENT "Generating blinky.hex"
 )
 

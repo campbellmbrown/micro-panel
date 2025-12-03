@@ -12,8 +12,6 @@
 
 #include <stdbool.h>
 
-#define TWI_ADDRESSES (127)
-
 static volatile bool m_xfer_done = false;
 static bool read_something = false;
 static u8g2_t u8g2;
@@ -24,7 +22,8 @@ static u8g2_t u8g2;
 #define TWI_INSTANCE_ID 1
 #endif
 
-#define OLED_ADDR 0x3C
+constexpr uint8_t TWI_ADDRESSES = 127;
+constexpr uint8_t OLED_ADDR = 0x3C;
 
 static const nrf_drv_twi_t m_twi = NRF_DRV_TWI_INSTANCE(TWI_INSTANCE_ID);
 
@@ -34,33 +33,23 @@ static void twi_handler(nrf_drv_twi_evt_t const *p_event, void *p_context)
     switch (p_event->type)
     {
         case NRF_DRV_TWI_EVT_ADDRESS_NACK:
-        {
-            m_xfer_done = true;
-            break;
-        }
         case NRF_DRV_TWI_EVT_DATA_NACK:
-        {
             m_xfer_done = true;
             break;
-        }
         case NRF_DRV_TWI_EVT_DONE:
-        {
             if (p_event->xfer_desc.type == NRF_DRV_TWI_XFER_RX)
             {
                 read_something = true;
             }
             m_xfer_done = true;
             break;
-        }
         default:
-        {
             m_xfer_done = false;
             break;
-        }
     }
 }
 
-static void twi_init(void)
+static void twi_init()
 {
     ret_code_t err_code;
 
@@ -70,15 +59,16 @@ static void twi_init(void)
         .frequency = NRF_DRV_TWI_FREQ_400K,
         .interrupt_priority = APP_IRQ_PRIORITY_HIGH,
         .clear_bus_init = false,
+        .hold_bus_uninit = false,
     };
 
-    err_code = nrf_drv_twi_init(&m_twi, &twi_oled_config, twi_handler, NULL);
+    err_code = nrf_drv_twi_init(&m_twi, &twi_oled_config, twi_handler, nullptr);
     APP_ERROR_CHECK(err_code);
 
     nrf_drv_twi_enable(&m_twi);
 }
 
-static uint8_t u8g2_nrf_gpio_and_delay_twi_cb(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8g2_nrf_gpio_and_delay_twi_cb(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
     UNUSED_PARAMETER(arg_ptr);
     switch (msg)
@@ -103,12 +93,12 @@ static uint8_t u8x8_HW_com_twi_nrf52832(u8x8_t *u8x8, uint8_t msg, uint8_t arg_i
     uint8_t *data;
     ret_code_t err_code;
     static uint8_t buffer[32];
-    static uint8_t buf_idx;
+    static uint8_t buf_idx = 0;
     switch (msg)
     {
         case U8X8_MSG_BYTE_SEND:
         {
-            data = (uint8_t *)arg_ptr;
+            data = static_cast<uint8_t *>(arg_ptr);
             while (arg_int > 0)
             {
                 buffer[buf_idx++] = *data;
@@ -125,9 +115,6 @@ static uint8_t u8x8_HW_com_twi_nrf52832(u8x8_t *u8x8, uint8_t msg, uint8_t arg_i
         }
         case U8X8_MSG_BYTE_END_TRANSFER:
         {
-            uint8_t addr = u8x8_GetI2CAddress(u8x8);
-            (void)addr;
-
             err_code = nrf_drv_twi_tx(&m_twi, u8x8_GetI2CAddress(u8x8), buffer, buf_idx, false);
             APP_ERROR_CHECK(err_code);
             while (!m_xfer_done)
@@ -144,22 +131,20 @@ static uint8_t u8x8_HW_com_twi_nrf52832(u8x8_t *u8x8, uint8_t msg, uint8_t arg_i
 
 static void print_hello()
 {
-    static int x = 30;
-    static int y = 30;
+    static u8g2_uint_t x = 30;
+    static u8g2_uint_t y = 30;
 
     u8g2_ClearBuffer(&u8g2);
     u8g2_SetFont(&u8g2, u8g2_font_ncenB08_tr);
-    x++;
-    y++;
-    x = (x % 20);
-    y = (y % 20);
+    x = (x + 1) % 20;
+    y = (y + 1) % 20;
     u8g2_DrawStr(&u8g2, y, x, "Hello World!");
     u8g2_SendBuffer(&u8g2);
 }
 
-int main(void)
+int main()
 {
-    APP_ERROR_CHECK(NRF_LOG_INIT(NULL));
+    APP_ERROR_CHECK(NRF_LOG_INIT(nullptr));
     NRF_LOG_DEFAULT_BACKENDS_INIT();
 
     nrf_gpio_cfg_output(PIN_LED_RED);
@@ -198,8 +183,11 @@ int main(void)
         }
     }
 
-    u8g2_Setup_ssd1306_i2c_128x64_noname_f(
-        &u8g2, U8G2_R0, (u8x8_msg_cb)u8x8_HW_com_twi_nrf52832, u8g2_nrf_gpio_and_delay_twi_cb);
+    u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2,
+                                           U8G2_R0,
+                                           static_cast<u8x8_msg_cb>(u8x8_HW_com_twi_nrf52832),
+                                           static_cast<u8x8_msg_cb>(u8g2_nrf_gpio_and_delay_twi_cb));
+
     u8g2_SetI2CAddress(&u8g2, OLED_ADDR);
 
     u8g2_InitDisplay(&u8g2);
