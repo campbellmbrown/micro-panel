@@ -22,6 +22,8 @@ set(PROJ_DIR ${CMAKE_SOURCE_DIR}/src)
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/nrf52840_s140_v7.ld)
 
 set(SRC_FILES
+    src/driver/i2c.cpp
+    src/driver/oled.cpp
     src/main.cpp
 )
 

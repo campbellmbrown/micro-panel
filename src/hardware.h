@@ -10,7 +10,7 @@ extern "C"
 
 #include "nrf_gpio.h"
 
-#define LEDS_ACTIVE_STATE 0
+#define LEDS_ACTIVE_STATE (0)
 
 #define PIN_LED_RED   (NRF_GPIO_PIN_MAP(0, 26))
 #define PIN_LED_GREEN (NRF_GPIO_PIN_MAP(0, 30))
@@ -18,6 +18,8 @@ extern "C"
 
 #define PIN_I2C_SCL (NRF_GPIO_PIN_MAP(0, 5))
 #define PIN_I2C_SDA (NRF_GPIO_PIN_MAP(0, 4))
+
+#define TWI_ADDRESS_OLED (0x3C)
 
 #ifdef __cplusplus
 }
