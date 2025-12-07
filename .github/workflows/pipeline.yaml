@@ -40,8 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: campbellmbrown/gcc-arm:10.3-2021.10
-      # Run as the GitHub Actions user to avoid permission issues
-      options: --user $(id -u):$(id -g)
+      options: --user root
 
     steps:
     - uses: actions/checkout@v5
