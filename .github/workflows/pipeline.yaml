@@ -9,6 +9,7 @@ on:
 jobs:
   quality:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v5
 
@@ -34,3 +35,16 @@ jobs:
 
     - name: Format Python
       run: ruff format --check
+
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: campbellmbrown/gcc-arm:10.3-2021.10
+
+    steps:
+    - uses: actions/checkout@v5
+
+    - name: Build firmware
+      run: |
+        cmake -S . -B build
+        cmake --build build -- -j

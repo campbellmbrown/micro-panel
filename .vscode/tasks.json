@@ -58,5 +58,27 @@
             "group": "build",
             "problemMatcher": []
         },
+        {
+            "label": "format all",
+            "type": "shell",
+            "group": "build",
+            "problemMatcher": [],
+            "dependsOn": [
+                "format C/C++",
+                "format Python",
+            ],
+            "dependsOrder": "sequence"
+        },
+        {
+            "label": "lint all",
+            "type": "shell",
+            "group": "build",
+            "problemMatcher": [],
+            "dependsOn": [
+                "lint Python",
+                "type check Python"
+            ],
+            "dependsOrder": "sequence"
+        }
     ]
 }
